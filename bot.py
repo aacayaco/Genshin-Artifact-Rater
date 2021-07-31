@@ -75,12 +75,6 @@ def prefix(bot, message):
 	return '-'
 
 bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_messages=None, activity=discord.Game(name='-help'), help_command=None)
-slash = SlashCommand(bot, sync_commands=True)
-
-@slash.slash(name="test", description="This is just a test command, nothing more.")
-async def test(ctx: SlashContext):
-    embed = Embed(title="Embed Test")
-    await ctx.send(embeds=[embed])
 
 async def send_internal(msg, channel_id=CHANNEL_ID):
 	print(msg)
@@ -437,6 +431,14 @@ for lang in tr.languages.values():
 	_feedback = make_f('feedback', lang)
 
 command_names = [command.name for command in bot.commands] + [alias for command in bot.commands for alias in command.aliases]
+
+# Slash Commands
+slash = SlashCommand(bot, sync_commands=True)
+
+@slash.slash(name="test", description="This is just a test command, nothing more.")
+async def test(ctx: SlashContext):
+    embed = Embed(title="Embed Test")
+    await ctx.send(embeds=[embed])
 
 if __name__ == '__main__':
 	if not TOKEN:

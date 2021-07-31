@@ -80,7 +80,7 @@ slash = SlashCommand(bot, sync_commands=True)
 @slash.slash(name="test")
 async def test(ctx: SlashContext):
     embed = Embed(title="Embed Test")
-    await ctx.send(embed=embed)
+    await ctx.send(content="test", embed=[embed])
 
 async def send_internal(msg, channel_id=CHANNEL_ID):
 	print(msg)

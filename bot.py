@@ -466,30 +466,45 @@ from discord_slash.utils.manage_commands import create_option, create_choice
 			description="Test sync with the normal help function.",
 			options=[
 				create_option(
-					name="optone",
+					name="command",
 					description="Show the help message for that command. Commands: rate, feedback, sets, lang, prefix, preset.",
 					option_type=3,
 					required=False,
 					choices=[
 						create_choice(
-							name="ChoiceOne",
+							name="-rate",
 							value="rate"
 						),
 						create_choice(
-							name="ChoiceTwo",
+							name="-feedback",
 							value="feedback"
+						),
+						create_choice(
+							name="-sets",
+							value="sets"
+						),
+						create_choice(
+							name="-lang",
+							value="lang"
+						),
+						create_choice(
+							name="-prefix",
+							value="prefix"
+						),
+						create_choice(
+							name="-preset",
+							value="preset"
 						)
 					]
 				)
 			]
 		)
-async def help_slash(ctx, optone: str):
+async def help_slash(ctx, command=None):
 	# add more commands based on the choice from the option
-	command = ["-help"]
-	print(optone)
-	if optone is not None:
-		command.append(optone)
-	await help_function(ctx=ctx, command=command)
+	command_array = ["-help"]
+	if command is not None:
+		command_array.append(command)
+	await help_function(ctx=ctx, command=command_array)
 
 if __name__ == '__main__':
 	if not TOKEN:

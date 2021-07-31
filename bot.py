@@ -235,9 +235,10 @@ def create_embed(lang):
 	embed.set_footer(text=lang.help_footer)
 	return embed
 
+@slash.slash(name="help")
 @bot.command()
 @commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
-async def help(ctx):
+async def help(ctx: SlashContext):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):
 		return
 

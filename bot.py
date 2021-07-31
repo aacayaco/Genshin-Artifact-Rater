@@ -447,7 +447,7 @@ for lang in tr.languages.values():
 
 command_names = [command.name for command in bot.commands] + [alias for command in bot.commands for alias in command.aliases]
 
-from discord_slash.utils.manage_commands import create_option
+from discord_slash.utils.manage_commands import create_option, create_choice
 
 # # get options from the "command_names"
 # options = []
@@ -466,19 +466,29 @@ from discord_slash.utils.manage_commands import create_option
 			description="Test sync with the normal help function.",
 			options=[
 				create_option(
-					name="<command>",
+					name="optone",
 					description="Show the help message for that command. Commands: rate, feedback, sets, lang, prefix, preset.",
 					option_type=3,
-					required=False
+					required=False,
+					choices=[
+						create_choice(
+							name="ChoiceOne",
+							value="rate"
+						),
+						create_choice(
+							name="ChoiceTwo",
+							value="feedback"
+						)
+					]
 				)
 			]
 		)
-async def help_slash(ctx, option: str):
+async def help_slash(ctx, optone: str):
 	# add more commands based on the choice from the option
 	command = ["-help"]
-	print(option)
-	if option is not None:
-		command.append(option)
+	print(optone)
+	if optone is not None:
+		command.append(optone)
 	await help_function(ctx=ctx, command=command)
 
 if __name__ == '__main__':

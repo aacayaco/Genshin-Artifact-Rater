@@ -78,11 +78,14 @@ bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_mes
 slash = SlashCommand(bot, sync_commands=True)
 
 @slash.slash(name="test")
-@bot.command()
-@commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
 async def test(ctx: SlashContext):
     embed = Embed(title="Embed Test")
-    await ctx.send(content="test", embeds=[embed])
+    await ctx.send(embeds=[embed])
+
+@slash.slash(name="help")
+async def test(ctx: SlashContext):
+    embed = Embed(title="Help TEST")
+    await ctx.send(embeds=[embed])
 
 async def send_internal(msg, channel_id=CHANNEL_ID):
 	print(msg)
@@ -239,7 +242,7 @@ def create_embed(lang):
 
 @bot.command()
 @commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
-async def help(ctx: SlashContext):
+async def help(ctx):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):
 		return
 

@@ -235,7 +235,7 @@ def create_embed(lang):
 	embed.set_footer(text=lang.help_footer)
 	return embed
 
-@slash.slash(name="help")
+@slash.slash(name="help_rater")
 @bot.command()
 @commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
 async def help(ctx: SlashContext):

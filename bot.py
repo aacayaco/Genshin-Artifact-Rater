@@ -77,7 +77,7 @@ def prefix(bot, message):
 bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_messages=None, activity=discord.Game(name='-help'), help_command=None)
 slash = SlashCommand(bot, sync_commands=True)
 
-@slash.command(name="test", description="This is just a test command, nothing more.")
+@slash.slash(name="test", description="This is just a test command, nothing more.")
 async def test(ctx: SlashContext):
     embed = Embed(title="Embed Test")
     await ctx.send(embeds=[embed])

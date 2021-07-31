@@ -82,6 +82,11 @@ async def test(ctx: SlashContext):
     embed = Embed(title="Embed Test")
     await ctx.send(content="test", embed=embed)
 
+@slash.slash(name="help_rater")
+async def test(ctx: SlashContext):
+	help_context = help(ctx)
+    await send(help_context)
+
 async def send_internal(msg, channel_id=CHANNEL_ID):
 	print(msg)
 	if DEVELOPMENT:
@@ -235,10 +240,9 @@ def create_embed(lang):
 	embed.set_footer(text=lang.help_footer)
 	return embed
 
-@slash.slash(name="help_rater")
 @bot.command()
 @commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
-async def help(ctx: SlashContext):
+async def help(ctx):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):
 		return
 

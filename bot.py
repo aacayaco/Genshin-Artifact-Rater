@@ -80,7 +80,7 @@ bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_mes
 # slash = SlashCommand(bot, sync_commands=True)
 slash = slash_commands.SlashClient(bot)
 
-@slash.slash(name="test", description="This is just a test command, nothing more.")
+@slash.command(name="test", description="This is just a test command, nothing more.")
 async def test(ctx):
     embed = Embed(title="Embed Test")
     await ctx.send(embeds=[embed])

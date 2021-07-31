@@ -12,6 +12,7 @@ from discord.ext import commands, tasks
 from dotenv import load_dotenv
 from signal import SIGINT, SIGTERM
 
+from discord import Intents, Embed
 from discord_slash import SlashCommand, SlashContext
 
 load_dotenv()
@@ -73,8 +74,9 @@ def prefix(bot, message):
 			return prefix
 	return '-'
 
-bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_messages=None, activity=discord.Game(name='-help'), help_command=None)
-slash = SlashCommand(bot)
+intents = Intents.all()
+bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_messages=None, activity=discord.Game(name='-help'), help_command=None, intents=intents)
+slash = SlashCommand(bot, sync_commands=True)
 
 @slash.slash(name="test")
 async def test(ctx: SlashContext):

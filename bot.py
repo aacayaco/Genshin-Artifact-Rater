@@ -77,14 +77,14 @@ def prefix(bot, message):
 bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_messages=None, activity=discord.Game(name='-help'), help_command=None)
 slash = SlashCommand(bot, sync_commands=True)
 
-@slash.slash(name="test")
+@slash.slash(name="test", description="This is just a test command, nothing more.")
 async def test(ctx: SlashContext):
     embed = Embed(title="Embed Test")
     await ctx.send(embeds=[embed])
 
-@slash.slash(name="help")
+@slash.slash(name="help", description="Help should be integrated with the -help commannd.")
 async def test(ctx: SlashContext):
-    embed = Embed(title="Help TEST")
+    embed = Embed(title="Help Test")
     await ctx.send(embeds=[embed])
 
 async def send_internal(msg, channel_id=CHANNEL_ID):

@@ -232,6 +232,9 @@ def create_embed(lang):
 @bot.command()
 @commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
 async def help(ctx):
+	await help_function(ctx=ctx)
+
+async def help_function(ctx):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):
 		return
 
@@ -439,6 +442,11 @@ slash = SlashCommand(bot, sync_commands=True)
 async def test(ctx: SlashContext):
     embed = Embed(title="Embed Test")
     await ctx.send(embeds=[embed])
+
+
+@slash.slash(name="help", description="Test sync with the normal help function.")
+async def help_slash(ctx: SlashContext):
+	await help_function(ctx=ctx)
 
 if __name__ == '__main__':
 	if not TOKEN:

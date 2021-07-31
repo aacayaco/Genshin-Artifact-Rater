@@ -14,8 +14,6 @@ from signal import SIGINT, SIGTERM
 
 from discord import Embed
 from discord_slash import SlashCommand, SlashContext
-from dislash import slash_commands
-from dislash.interactions import *
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -77,11 +75,10 @@ def prefix(bot, message):
 	return '-'
 
 bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_messages=None, activity=discord.Game(name='-help'), help_command=None)
-# slash = SlashCommand(bot, sync_commands=True)
-slash = slash_commands.SlashClient(bot)
+slash = SlashCommand(bot, sync_commands=True)
 
 @slash.command(name="test", description="This is just a test command, nothing more.")
-async def test(ctx):
+async def test(ctx: SlashContext):
     embed = Embed(title="Embed Test")
     await ctx.send(embeds=[embed])
 
@@ -238,9 +235,9 @@ def create_embed(lang):
 	embed.set_footer(text=lang.help_footer)
 	return embed
 
-@slash.command()
+@bot.command()
 @commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
-async def help(ctx: SlashContext):
+async def help(ctx):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):
 		return
 

@@ -82,10 +82,10 @@ async def test(ctx: SlashContext):
     embed = Embed(title="Embed Test")
     await ctx.send(embeds=[embed])
 
-@slash.slash(name="help", description="Help should be integrated with the -help commannd.")
-async def test(ctx: SlashContext):
-    embed = Embed(title="Help Test")
-    await ctx.send(embeds=[embed])
+# @slash.slash(name="help", description="Help should be integrated with the -help commannd.")
+# async def test(ctx: SlashContext):
+#     embed = Embed(title="Help Test")
+#     await ctx.send(embeds=[embed])
 
 async def send_internal(msg, channel_id=CHANNEL_ID):
 	print(msg)
@@ -240,7 +240,7 @@ def create_embed(lang):
 	embed.set_footer(text=lang.help_footer)
 	return embed
 
-@bot.command()
+@slash.command()
 @commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
 async def help(ctx):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):
@@ -430,7 +430,7 @@ async def feedback(ctx):
 
 def make_f(name, lang):
 	suffix = f'_{lang.id}'
-	@bot.command(name=f'{name}{suffix}')
+	@slash.command(name=f'{name}{suffix}')
 	@commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
 	async def _f(ctx):
 		await send(ctx, msg=lang.deprecated)

@@ -241,11 +241,6 @@ def create_embed(lang):
 async def help(ctx):
 	await help_function(ctx=ctx)
 
-@slash.slash(name="help", description="Test sync with the normal help function.")
-async def help_slash(ctx: SlashContext):
-	# add more commands based on the choice from the option
-	await help_function(ctx=ctx, command=["help","rate"])
-
 async def help_function(ctx, command=None):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):
 		return
@@ -449,6 +444,31 @@ for lang in tr.languages.values():
 	_feedback = make_f('feedback', lang)
 
 command_names = [command.name for command in bot.commands] + [alias for command in bot.commands for alias in command.aliases]
+
+from discord_slash.utils.manage_commands import create_option
+
+# get options from the "command_names"
+options = []
+for name in command_names:
+	options.append(
+		create_option(
+			name=name,
+			description="a description of an option",
+			option_type=3,
+			required=False
+        )
+	)
+
+@slash.slash(
+			name="help",
+			description="Test sync with the normal help function.",
+			options=options
+			)
+async def help_slash(ctx, *argv):
+	# add more commands based on the choice from the option
+	command = ["-help"]
+	print(argv)
+	await help_function(ctx=ctx, command=command)
 
 if __name__ == '__main__':
 	if not TOKEN:

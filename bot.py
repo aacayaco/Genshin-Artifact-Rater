@@ -244,7 +244,7 @@ async def help(ctx):
 @slash.slash(name="help", description="Test sync with the normal help function.")
 async def help_slash(ctx: SlashContext):
 	# add more commands based on the choice from the option
-	await help_function(ctx=ctx, command="help")
+	await help_function(ctx=ctx, command=["help"])
 
 async def help_function(ctx, command=None):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):

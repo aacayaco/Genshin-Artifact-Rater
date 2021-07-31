@@ -1,4 +1,6 @@
 from typing import ContextManager
+
+from sqlalchemy.sql.operators import op
 import rate_artifact as ra
 import translations as tr
 
@@ -464,17 +466,19 @@ from discord_slash.utils.manage_commands import create_option
 			description="Test sync with the normal help function.",
 			options=[
 				create_option(
-					name="Option 1",
-					description="a description of an option",
+					name="<command>",
+					description="Show the help message for that command. Commands: rate, feedback, sets, lang, prefix, preset.",
 					option_type=3,
 					required=False
 				)
 			]
 		)
-async def help_slash(ctx, *argv):
+async def help_slash(ctx, option: str):
 	# add more commands based on the choice from the option
 	command = ["-help"]
-	print(argv)
+	print(option)
+	if option is not None:
+		command.append(option)
 	await help_function(ctx=ctx, command=command)
 
 if __name__ == '__main__':

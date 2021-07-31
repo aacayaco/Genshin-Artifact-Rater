@@ -449,13 +449,6 @@ command_names = [command.name for command in bot.commands] + [alias for command 
 
 from discord_slash.utils.manage_commands import create_option, create_choice
 
-choices = []
-for name in command_names:
-	create_choice(
-		name="-{name}",
-		value="{name}"
-	)
-
 @slash.slash(
 			name="help",
 			description="Test sync with the normal help function.",
@@ -465,7 +458,32 @@ for name in command_names:
 					description="Show the help message or help for a specific command.",
 					option_type=3,
 					required=False,
-					choices=choices
+					choices=[
+						create_choice(
+							name="-rate",
+							value="rate"
+						),
+						create_choice(
+							name="-feedback",
+							value="feedback"
+						),
+						create_choice(
+							name="-sets",
+							value="sets"
+						),
+						create_choice(
+							name="-lang",
+							value="lang"
+						),
+						create_choice(
+							name="-prefix",
+							value="prefix"
+						),
+						create_choice(
+							name="-preset",
+							value="preset"
+						)
+					]
 				)
 			]
 		)

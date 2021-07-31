@@ -1,3 +1,4 @@
+from typing import ContextManager
 import rate_artifact as ra
 import translations as tr
 
@@ -75,6 +76,12 @@ def prefix(bot, message):
 	return '-'
 
 bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_messages=None, activity=discord.Game(name='-help'), help_command=None)
+slash = SlashCommand(bot, sync_commands=True)
+
+@slash.slash(name="test", description="This is just a test command, nothing more.")
+async def test(ctx: SlashContext):
+    embed = Embed(title="Embed Test")
+    await ctx.send(embeds=[embed])
 
 async def send_internal(msg, channel_id=CHANNEL_ID):
 	print(msg)
@@ -234,13 +241,21 @@ def create_embed(lang):
 async def help(ctx):
 	await help_function(ctx=ctx)
 
-async def help_function(ctx):
+@slash.slash(name="help", description="Test sync with the normal help function.")
+async def help_slash(ctx: SlashContext):
+	# add more commands based on the choice from the option
+	await help_function(ctx=ctx, command="help")
+
+async def help_function(ctx, command=None):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):
 		return
 
 	lang = get_lang(ctx)
 
-	command = ctx.message.content.split()
+	if command == None:
+		# get command string from message
+		command = ctx.message.content.split()
+
 	if len(command) > 2 or len(command) == 2 and command[1] not in lang.help_commands:
 		await send(ctx, msg=lang.err_parse)
 		return
@@ -434,19 +449,6 @@ for lang in tr.languages.values():
 	_feedback = make_f('feedback', lang)
 
 command_names = [command.name for command in bot.commands] + [alias for command in bot.commands for alias in command.aliases]
-
-# Slash Commands
-slash = SlashCommand(bot, sync_commands=True)
-
-@slash.slash(name="test", description="This is just a test command, nothing more.")
-async def test(ctx: SlashContext):
-    embed = Embed(title="Embed Test")
-    await ctx.send(embeds=[embed])
-
-
-@slash.slash(name="help", description="Test sync with the normal help function.")
-async def help_slash(ctx: SlashContext):
-	await help_function(ctx=ctx)
 
 if __name__ == '__main__':
 	if not TOKEN:

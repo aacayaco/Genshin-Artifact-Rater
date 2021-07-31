@@ -447,23 +447,30 @@ command_names = [command.name for command in bot.commands] + [alias for command 
 
 from discord_slash.utils.manage_commands import create_option
 
-# get options from the "command_names"
-options = []
-for name in command_names:
-	options.append(
-		create_option(
-			name=name,
-			description="a description of an option",
-			option_type=3,
-			required=False
-        )
-	)
+# # get options from the "command_names"
+# options = []
+# for name in command_names:
+# 	options.append(
+# 		create_option(
+# 			name=name,
+# 			description="a description of an option",
+# 			option_type=3,
+# 			required=False
+#         )
+# 	)
 
 @slash.slash(
 			name="help",
 			description="Test sync with the normal help function.",
-			options=options
-			)
+			options=[
+				create_option(
+					name="Option 1",
+					description="a description of an option",
+					option_type=3,
+					required=False
+				)
+			]
+		)
 async def help_slash(ctx, *argv):
 	# add more commands based on the choice from the option
 	command = ["-help"]

@@ -11,3 +11,4 @@ Unidecode==1.1.1
 validators==0.18.1
 discord-py-slash-command
 discord.py
+dislash.py

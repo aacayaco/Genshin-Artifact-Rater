@@ -14,6 +14,8 @@ from signal import SIGINT, SIGTERM
 
 from discord import Embed
 from discord_slash import SlashCommand, SlashContext
+from dislash import slash_commands
+from dislash.interactions import *
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -75,10 +77,11 @@ def prefix(bot, message):
 	return '-'
 
 bot = commands.AutoShardedBot(command_prefix=prefix, shard_count=SHARDS, max_messages=None, activity=discord.Game(name='-help'), help_command=None)
-slash = SlashCommand(bot, sync_commands=True)
+# slash = SlashCommand(bot, sync_commands=True)
+slash = slash_commands.SlashClient(bot)
 
 @slash.slash(name="test", description="This is just a test command, nothing more.")
-async def test(ctx: SlashContext):
+async def test(ctx):
     embed = Embed(title="Embed Test")
     await ctx.send(embeds=[embed])
 

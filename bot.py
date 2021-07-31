@@ -237,7 +237,6 @@ def create_embed(lang):
 
 @bot.command()
 @commands.cooldown(RATE_LIMIT_N, RATE_LIMIT_TIME, commands.BucketType.user)
-@slash.slash(name="help_rater")
 async def help(ctx: SlashContext):
 	if DEVELOPMENT and not (ctx.channel and ctx.channel.id == DEV_CHANNEL_ID):
 		return
